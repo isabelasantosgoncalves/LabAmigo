@@ -1,0 +1,117 @@
+<div th:fragment="header" class="page-header">
+
+    <div class="header-left">
+
+        <h3 th:text="${tituloPagina}">
+            Dashboard
+        </h3>
+
+        <small class="text-muted">
+            Sistema de Apoio a Roteiros Experimentais
+        </small>
+
+    </div>
+
+    <div class="header-center">
+
+        <div class="input-group">
+
+            <span class="input-group-text">
+
+                <i class="bi bi-search"></i>
+
+            </span>
+
+            <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Pesquisar">
+
+        </div>
+
+    </div>
+
+    <div class="header-right">
+
+        <div class="dropdown">
+
+            <button
+                    class="btn btn-light noti-bell"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    aria-label="Notificações">
+
+                <i class="bi bi-bell"></i>
+
+                <span
+                        th:if="${numNotificacoes != null and numNotificacoes > 0}"
+                        class="noti-badge"
+                        th:text="${numNotificacoes}">0</span>
+
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end noti-menu">
+
+                <li class="noti-header">
+                    <i class="bi bi-bell"></i> Notificações
+                </li>
+
+                <li th:if="${notificacoes == null or notificacoes.isEmpty()}"
+                    class="noti-empty">
+                    Tudo em dia por aqui!
+                </li>
+
+                <li th:each="n : ${notificacoes}" class="noti-item">
+                    <span class="noti-dot"
+                          th:classappend="${n.tipo == 'VENCIDO'} ? 'dot-vencido' : 'dot-alerta'"></span>
+                    <span th:text="${n.mensagem}">Insumo vence em X dias</span>
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="dropdown">
+
+            <button
+                    class="btn btn-light dropdown-toggle"
+                    data-bs-toggle="dropdown">
+
+                <i class="bi bi-person-circle"></i>
+
+                Administrador
+
+            </button>
+
+            <ul class="dropdown-menu">
+
+                <li>
+                    <a class="dropdown-item" href="#">
+                        Meu Perfil
+                    </a>
+                </li>
+
+                <li>
+                    <a class="dropdown-item" href="#">
+                        Configurações
+                    </a>
+                </li>
+
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+
+                <li>
+                    <a class="dropdown-item text-danger" href="#">
+                        Sair
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>

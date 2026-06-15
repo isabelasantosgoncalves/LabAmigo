@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LabAmigo</title>
+    <link rel="icon" th:href="@{/img/labamigo-icone.png(v=1)}" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <!-- Isa amada vc pode pôr no css era aquele bagulho das cores quis enfeitar -->
+    <style>
+        .alerta-box { padding: 15px; border-radius: 8px; margin-bottom: 10px; font-weight: 500; }
+        .alerta-vencido { background-color: #f8d7da; color: #721c24; border-left: 5px solid #dc3545; }
+        .alerta-capacidade { background-color: #fff3cd; color: #856404; border-left: 5px solid #ffc107; }
+    </style>
+</head>
+<body>
+<div class="layout">
+    <div th:replace="~{fragments/menu :: menu}"></div>
+    <main class="content">
+        <div th:replace="~{fragments/header :: header}"></div>
+
+        <section class="hero mb-4">
+            <h1>Bem-vindo ao LabAmigo</h1>
+            <p>Sistema de apoio ao gerenciamento de roteiros experimentais e controle de insumos laboratoriais.</p>
+        </section>
+
+        <section class="dashboard-cards mb-5">
+            <div class="card-dashboard">
+                <i class="bi bi-journal-text"></i>
+                <h2 th:text="${totalRoteiros}">18</h2>
+                <p>Roteiros cadastrados</p>
+            </div>
+            <div class="card-dashboard">
+                <i class="bi bi-eyedropper"></i>
+                <h2 th:text="${totalInsumos}">142</h2>
+                <p>Insumos cadastrados</p>
+            </div>
+            <div class="card-dashboard">
+                <i class="bi bi-play-circle"></i>
+                <h2 th:text="${totalExecucoes}">24</h2>
+                <p>Execuções realizadas</p>
+            </div>
+        </section>
+
+        <section th:if="${notificacoes != null and !notificacoes.isEmpty()}" class="mb-4">
+            <h4 class="text-danger"><i class="bi bi-exclamation-octagon-fill"></i> Avisos de validade</h4>
+            <div th:each="n : ${notificacoes}"
+                 class="alerta-box"
+                 th:classappend="${n.tipo == 'VENCIDO'} ? 'alerta-vencido' : 'alerta-capacidade'">
+                <i class="bi"
+                   th:classappend="${n.tipo == 'VENCIDO'} ? 'bi-x-circle-fill' : 'bi-exclamation-triangle-fill'"></i>
+                <span th:text="${n.mensagem}"></span>
+            </div>
+        </section>
+
+        <section th:if="${analisesRoteiros != null and !analisesRoteiros.isEmpty()}" class="mb-4">
+            <h4 class="text-warning text-darken"><i class="bi bi-cone-striped"></i> Atenção aos Estoques para Roteiros</h4>
+            <div th:each="cap : ${analisesRoteiros}" class="alerta-box alerta-capacidade">
+                <i class="bi bi-exclamation-triangle-fill"></i> <span th:text="${cap}"></span>
+            </div>
+        </section>
+
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
